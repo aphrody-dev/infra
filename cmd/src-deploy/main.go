@@ -425,7 +425,7 @@ func runDoctor(args []string) error {
 		return err
 	}
 
-	ctx, cancel := context.WithTimeout(context.Background(), 4*time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(), 12*time.Second)
 	defer cancel()
 
 	vault := envvault.Load(monorepoRoot())
@@ -440,6 +440,8 @@ func runDoctor(args []string) error {
 		"gcloud":   probeCmd(ctx, "gcloud", "--version"),
 		"vercel":   probeCmd(ctx, "vercel", "--version"),
 		"wck":      probeCmd(ctx, `C:\Users\aphro\.local\bin\wck.exe`, "--version"),
+		"rsk":      probeCmd(ctx, `C:\Users\aphro\.local\bin\rust-stack.exe`, "--version"),
+		"triad":    probeCmd(ctx, `C:\Users\aphro\.local\bin\triad.exe`, "--version"),
 	}
 
 	dockerState := "unreachable (daemonless OCI v1.1 active)"
@@ -482,7 +484,7 @@ func runDoctor(args []string) error {
 
 	dllDir := `C:\Users\aphro\.local\bin`
 	dlls := map[string]string{}
-	for _, name := range []string{"infra_go.dll", "pi_opencode_native.dll", "agent_desktop_ffi.dll"} {
+	for _, name := range []string{"infra_go.dll", "rust_stack_ffi.dll", "pi_opencode_native.dll", "agent_desktop_ffi.dll"} {
 		p := filepath.Join(dllDir, name)
 		if st, err := os.Stat(p); err == nil {
 			dlls[name] = fmt.Sprintf("present (%d bytes)", st.Size())
@@ -515,11 +517,11 @@ func runDoctor(args []string) error {
 	fmt.Printf("Ollama Fleet  : %s\n", rep.OllamaStatus)
 	fmt.Printf("WireGuard Mesh: %s\n", rep.MeshConfigDir)
 	fmt.Println("\nToolchains & Cloud CLIs:")
-	for _, k := range []string{"go", "zig", "bun", "cargo", "docker", "ovhcloud", "wrangler", "gcloud", "vercel", "wck"} {
+	for _, k := range []string{"go", "zig", "bun", "cargo", "docker", "ovhcloud", "wrangler", "gcloud", "vercel", "wck", "rsk", "triad"} {
 		fmt.Printf("  %-10s : %s\n", k, rep.Binaries[k])
 	}
 	fmt.Println("\nPolyglot Native FFI Shared Libraries (~/.local/bin):")
-	for _, k := range []string{"infra_go.dll", "pi_opencode_native.dll", "agent_desktop_ffi.dll"} {
+	for _, k := range []string{"infra_go.dll", "rust_stack_ffi.dll", "pi_opencode_native.dll", "agent_desktop_ffi.dll"} {
 		fmt.Printf("  %-24s : %s\n", k, rep.NativeFFIDLLs[k])
 	}
 	fmt.Printf("\nSecret Vault (%s — Strictly Redacted):\n", rep.VaultPath)
