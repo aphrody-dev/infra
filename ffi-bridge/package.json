@@ -6,10 +6,11 @@
   "type": "module",
   "scripts": {
     "test": "bun test",
+    "check": "bun check",
+    "fmt": "bun fmt",
     "test:rust": "cargo test"
   },
-  "devDependencies": {
-    "@types/bun": "latest"
-  },
+  "dependencies": {},
+  "devDependencies": {},
   "packageManager": "bun@1.4.4"
 }

@@ -1,6 +1,6 @@
 [package]
 name = "infra_ffi_bridge"
-version = "0.1.0"
+version = "1.27.0"
 edition = "2024"
 description = "Direct Rust -> Go 1.27 (`infra_go.dll`) Native C-ABI FFI Bridge via Win32 LoadLibraryA / GetProcAddress"
 license = "MIT"

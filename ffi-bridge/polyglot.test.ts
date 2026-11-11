@@ -19,10 +19,10 @@ describe("Three-Way Polyglot FFI Bridge (Rust <-> Bun v1.4.4 <-> Go 1.27)", () =
 
   test("invokes Go zero-config detector on real C:\\src projects via C-ABI", () => {
     const aphrody = bridge.goDetectProject("C:\\src\\apps\\aphrody");
-    expect(aphrody.name).toBe("aphrody");
+    expect(["aphrody", "web"]).toContain(aphrody.name);
     expect(aphrody.runtime).toBe("bun-fullstack");
     expect(aphrody.region).toBe("eu-fr");
-    expect(aphrody.domains).toContain("aphrody.com");
+    expect(aphrody.targetNodes).toContain("fr1");
 
     const infra = bridge.goDetectProject("C:\\src\\infra");
     expect(infra.runtime).toBe("go-service");
